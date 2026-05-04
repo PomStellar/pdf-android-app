@@ -1,0 +1,77 @@
+Build a Flutter Android app with the following requirements:
+
+Core Features
+Maintain an in-memory list: List<Bak>
+Each Bak object must contain:
+String id
+String name
+List<File> images
+Functional Requirements
+User can create multiple BAK entries
+User can delete a BAK
+User can pick multiple images from device storage for each BAK
+User can remove images from a BAK
+Provide a button labeled "Proses Semua"
+Processing Logic
+
+When "Proses Semua" is pressed:
+
+Loop through all BAK
+Skip BAK with empty image list
+For each BAK:
+Create a PDF file
+Each image becomes one PDF page
+No watermark
+Use portrait layout
+Save each PDF to:
+/storage/emulated/0/Documents/BAK_PDF/
+File naming format:
+{bak.name}.pdf
+PDF Generation Rules
+Use pdf package
+Convert each image to MemoryImage
+Add one page per image using pw.Page
+Center the image on the page
+Do not stretch disproportionately
+File Input
+Use file_picker
+Allow multiple image selection
+Store selected files as File
+Storage
+Ensure directory /Documents/BAK_PDF/ exists
+Create it if it does not exist
+Use path_provider if needed
+Sharing
+After all PDFs are generated:
+Return list of generated files
+Provide option to share each file using share_plus
+UI Requirements
+
+Single screen only.
+
+Must include:
+
+Button: "Tambah BAK"
+List of BAK items
+
+Each BAK item must include:
+
+Display name
+Button: "Tambah Gambar"
+Button: "Hapus BAK"
+Grid or wrap of image previews
+
+Bottom section:
+
+Button: "Proses Semua"
+Constraints
+No backend
+No database
+No authentication
+No state management libraries (use basic StatefulWidget or setState)
+All operations must be local on device
+Use async/await for file operations
+Expected Output
+Multiple PDF files generated
+Stored locally in Documents/BAK_PDF
+Ready to share via apps like WhatsApp
