@@ -21,3 +21,20 @@ Pastikan Flutter SDK sudah tersedia di PATH, lalu jalankan:
 flutter pub get
 flutter run
 ```
+
+## Build APK di Codemagic
+
+Gunakan workflow `Android APK` dari `codemagic.yaml`. Workflow ini hanya build Android:
+
+```bash
+flutter create --platforms=android --project-name bak_pdf_app .
+flutter pub get
+flutter analyze
+flutter build apk --release
+```
+
+Artifact APK tersedia di:
+
+```text
+build/app/outputs/flutter-apk/app-release.apk
+```
