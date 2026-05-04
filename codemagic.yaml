@@ -9,6 +9,12 @@ workflows:
     scripts:
       - name: Ensure Android Flutter scaffold
         script: flutter create --platforms=android --project-name bak_pdf_app .
+      - name: Ensure AndroidX is enabled
+        script: |
+          printf '%s\n' \
+            'org.gradle.jvmargs=-Xmx4G -XX:MaxMetaspaceSize=2G -XX:ReservedCodeCacheSize=512m -XX:+HeapDumpOnOutOfMemoryError' \
+            'android.useAndroidX=true' \
+            'android.enableJetifier=true' > android/gradle.properties
       - name: Get Flutter packages
         script: flutter pub get
       - name: Analyze project

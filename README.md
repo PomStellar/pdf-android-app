@@ -28,6 +28,7 @@ Gunakan workflow `Android APK` dari `codemagic.yaml`. Workflow ini hanya build A
 
 ```bash
 flutter create --platforms=android --project-name bak_pdf_app .
+printf '%s\n' 'android.useAndroidX=true' 'android.enableJetifier=true' >> android/gradle.properties
 flutter pub get
 flutter analyze
 flutter build apk --release
