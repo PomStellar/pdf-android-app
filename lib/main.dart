@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -193,18 +194,22 @@ class _BakPdfPageState extends State<BakPdfPage> {
 
     for (final imageFile in bak.images) {
       final imageBytes = await imageFile.readAsBytes();
+      final decodedImage = await ui.decodeImageFromList(imageBytes);
+      final imageWidth = decodedImage.width.toDouble();
+      final imageHeight = decodedImage.height.toDouble();
+      decodedImage.dispose();
+
       final image = pw.MemoryImage(imageBytes);
 
       document.addPage(
         pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          orientation: pw.PageOrientation.portrait,
+          pageFormat: PdfPageFormat(imageWidth, imageHeight),
+          margin: pw.EdgeInsets.zero,
           build: (context) {
-            return pw.Center(
-              child: pw.Image(
-                image,
-                fit: pw.BoxFit.contain,
-              ),
+            return pw.Image(
+              image,
+              width: imageWidth,
+              height: imageHeight,
             );
           },
         ),
