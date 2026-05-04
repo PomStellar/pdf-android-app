@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:file_picker/file_picker.dart';
@@ -194,7 +196,7 @@ class _BakPdfPageState extends State<BakPdfPage> {
 
     for (final imageFile in bak.images) {
       final imageBytes = await imageFile.readAsBytes();
-      final decodedImage = await ui.decodeImageFromList(imageBytes);
+      final decodedImage = await _decodeImage(imageBytes);
       final imageWidth = decodedImage.width.toDouble();
       final imageHeight = decodedImage.height.toDouble();
       decodedImage.dispose();
@@ -220,6 +222,12 @@ class _BakPdfPageState extends State<BakPdfPage> {
     final file = File('${outputDirectory.path}/$sanitizedName.pdf');
     await file.writeAsBytes(await document.save());
     return file;
+  }
+
+  Future<ui.Image> _decodeImage(Uint8List imageBytes) {
+    final completer = Completer<ui.Image>();
+    ui.decodeImageFromList(imageBytes, completer.complete);
+    return completer.future;
   }
 
   String _sanitizeFileName(String name) {
